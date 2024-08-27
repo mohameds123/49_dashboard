@@ -29,6 +29,14 @@ class _AllUsersProfilesViewState extends State<AllUsersProfilesView> {
     super.initState();
 
     // Delay the API call to ensure the widget tree is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final cubit = context.read<AllUsersCubit>();
+      await cubit.getAllUsersProfiles(page: page);
+      allUsers.addAll(cubit.allUsersProfileModel!.data ?? []);
+      print(page.toString() + " gg");
+      print(allUsers.length.toString() + " gg");
+      setState(() {});
+    });
 
     // Attach the scroll listener to the controller
     _scrollController.addListener(_onScroll);
@@ -42,6 +50,7 @@ class _AllUsersProfilesViewState extends State<AllUsersProfilesView> {
       });
       context.read<AllUsersCubit>().getAllUsersProfiles(page: page);
       allUsers.addAll(context.read<AllUsersCubit>().allUsersProfileModel!.data ?? []);
+      print(page.toString() + " gg");
       print(allUsers.length.toString() + " gg");
 
       setState(() {});

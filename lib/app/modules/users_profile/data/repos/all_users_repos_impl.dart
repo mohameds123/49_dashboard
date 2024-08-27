@@ -17,7 +17,7 @@ class AllUsersReposImpl implements AllUsersRepos {
     try {
       UserAuthModel u = await SharedPreferencesHelper.getUserMode();
       var data = await apiService.getData(
-          endPoint: 'users/?page=$page&limit=10',
+          endPoint: 'users/?page=$page&limit=48',
           headers: {"Authorization": "Bearer ${u.data!.accessToken}"});
       return Right(AllUsersProfileModel.fromJson(data));
     } catch (e) {
