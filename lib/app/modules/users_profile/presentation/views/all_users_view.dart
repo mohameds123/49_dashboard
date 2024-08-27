@@ -47,6 +47,7 @@ class _AllUsersProfilesViewState extends State<AllUsersProfilesView> {
         _scrollController.position.maxScrollExtent) {
       setState(() {
         page++;
+
       });
       await context.read<AllUsersCubit>().getAllUsersProfiles(page: page);
 
