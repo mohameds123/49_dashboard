@@ -19,6 +19,8 @@ class AllUsersCubit extends Cubit<UsersProfilesState> {
 
     result.fold((fail) {
       log(fail.errMessage);
+
+      allUsersProfileModel = null;
       emit(GetAllUsersProfilesFailState());
     }, (data) {
       allUsersProfileModel = data;

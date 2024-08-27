@@ -42,17 +42,17 @@ class _AllUsersProfilesViewState extends State<AllUsersProfilesView> {
     _scrollController.addListener(_onScroll);
   }
 
-  void _onScroll() {
+  void _onScroll() async {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
       setState(() {
         page++;
       });
-      context.read<AllUsersCubit>().getAllUsersProfiles(page: page);
-      allUsers.addAll(context.read<AllUsersCubit>().allUsersProfileModel!.data ?? []);
-      print(page.toString() + " gg");
-      print(allUsers.length.toString() + " gg");
+      await context.read<AllUsersCubit>().getAllUsersProfiles(page: page);
 
+      allUsers.addAll(context.read<AllUsersCubit>().allUsersProfileModel == null
+          ? []
+          : context.read<AllUsersCubit>().allUsersProfileModel!.data ?? []);
       setState(() {});
     }
   }
