@@ -48,6 +48,7 @@ class _AllUsersProfilesViewState extends State<AllUsersProfilesView> {
       setState(() {
         page++;
 
+
       });
       await context.read<AllUsersCubit>().getAllUsersProfiles(page: page);
 
