@@ -1,18 +1,19 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants.dart';
 import '../../../core/custom_dio/dio_manager.dart';
 import '../../../core/custom_dio/src/custom_dio.dart';
+import '../../../core/utils/shared_pref_helper.dart';
 import '../../../core/widget/custom_alert.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   String? username;
   String? password;
-
 
   Future<void> loginUser() async {
     final dio = Dio();
@@ -28,6 +29,8 @@ class LoginController extends GetxController {
       final response = await dio.post(url, data: data);
 
       if (response.statusCode == 200) {
+        SharedPreferencesHelper.setData(
+            userKeyNameSharedPref, jsonEncode(response.data));
         // Handle success response
         print('Login successful: ${response.data}');
         Get.offNamed(Routes.SUPER_HOME);
@@ -53,10 +56,9 @@ class LoginController extends GetxController {
           username!.length < 5 ||
           password == null ||
           password!.length < 5) {
-        print (username);
-        print (password);
+        print(username);
+        print(password);
         return CustomAlert.showError('Info Not Match');
-
       }
       CustomAlert.customLoadingDialog();
 

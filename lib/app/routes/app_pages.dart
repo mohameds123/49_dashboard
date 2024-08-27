@@ -1,3 +1,5 @@
+import 'package:fourtynine_dashboard/app/modules/admin/admin_users/views/all_users_view.dart';
+import 'package:fourtynine_dashboard/app/modules/users_profile/presentation/views/user_profile_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/admin/admin_main_category/bindings/admin_main_category_binding.dart';
@@ -96,6 +98,7 @@ import '../modules/super_home/user_referrals/bindings/user_referrals_binding.dar
 import '../modules/super_home/user_referrals/views/user_referrals_view.dart';
 import '../modules/super_home/users/bindings/users_binding.dart';
 import '../modules/super_home/users/views/users_view.dart';
+import '../modules/users_profile/presentation/views/all_users_view.dart';
 
 part 'app_routes.dart';
 
@@ -348,6 +351,14 @@ class AppPages {
       name: _Paths.COMPLAINTS,
       page: () => const ComplaintsView(),
       binding: ComplaintsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALLUSERSPROFILES,
+      page: () => AllUsersProfilesView(),
+    ),
+    GetPage(
+      name: _Paths.USERPROFILE,
+      page: () => UserProfilesView(),
     ),
   ];
 }
