@@ -47,8 +47,6 @@ class _AllUsersProfilesViewState extends State<AllUsersProfilesView> {
         _scrollController.position.maxScrollExtent) {
       setState(() {
         page++;
-
-
       });
       await context.read<AllUsersCubit>().getAllUsersProfiles(page: page);
 
@@ -72,54 +70,81 @@ class _AllUsersProfilesViewState extends State<AllUsersProfilesView> {
     return BlocProvider.value(
       value: AllUsersCubit(getIt.get<AllUsersRepos>())
         ..getAllUsersProfiles(page: page),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('All Users'),
-          centerTitle: true,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13),
-          child: SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: CustomTextFieldWithBackground(
-                    label: "Search",
-                    controller: searchController,
-                  ),
-                ),
-                BlocBuilder<AllUsersCubit, UsersProfilesState>(
-                  builder: (context, state) {
-                    var cubit = AllUsersCubit.get(context);
-                    return Expanded(
-                      child: allUsers.isEmpty
-                          ? const Center(
-                              child: Text(
-                                "No Users Here!",
-                              ),
-                            )
-                          : ListView.separated(
-                              controller: _scrollController,
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (context, i) => InkWell(
-                                  onTap: () {
-                                    Get.toNamed(Routes.USERPROFILE);
-                                  },
-                                  child: AllUsersItemWidget(
-                                    userDataProfileModel: allUsers[i],
-                                  )),
-                              separatorBuilder: (context, i) => SizedBox(
-                                    height: 15,
-                                  ),
-                              itemCount: allUsers.length),
-                    );
-                  },
-                )
-              ],
+      child: BlocBuilder<AllUsersCubit, UsersProfilesState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('All Users'),
+              centerTitle: true,
             ),
-          ),
-        ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 13),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomTextFieldWithBackground(
+                        label: "Search",
+                        controller: searchController,
+                        onChange: (x) async {
+                          var cubit = AllUsersCubit.get(context);
+                          cubit.searchResult.clear();
+                          await cubit.getUsersSearchProfiles(key: x);
+                        },
+                      ),
+                    ),
+                    BlocBuilder<AllUsersCubit, UsersProfilesState>(
+                      builder: (context, state) {
+                        var cubit = AllUsersCubit.get(context);
+                        return cubit.searchResult.isNotEmpty
+                            ? Expanded(
+                                child: ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
+                                    itemBuilder: (context, i) => InkWell(
+                                        onTap: () {
+                                          Get.toNamed(Routes.USERPROFILE);
+                                        },
+                                        child: AllUsersItemWidget(
+                                          userDataProfileModel:
+                                              cubit.searchResult[i],
+                                        )),
+                                    separatorBuilder: (context, i) => SizedBox(
+                                          height: 15,
+                                        ),
+                                    itemCount: cubit.searchResult.length),
+                              )
+                            : Expanded(
+                                child: allUsers.isEmpty
+                                    ? const Center(
+                                        child: Text(
+                                          "No Users Here!",
+                                        ),
+                                      )
+                                    : ListView.separated(
+                                        controller: _scrollController,
+                                        physics: const BouncingScrollPhysics(),
+                                        itemBuilder: (context, i) => InkWell(
+                                            onTap: () {
+                                              Get.toNamed(Routes.USERPROFILE);
+                                            },
+                                            child: AllUsersItemWidget(
+                                              userDataProfileModel: allUsers[i],
+                                            )),
+                                        separatorBuilder: (context, i) =>
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                        itemCount: allUsers.length),
+                              );
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

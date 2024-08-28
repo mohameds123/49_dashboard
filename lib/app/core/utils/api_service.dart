@@ -5,17 +5,16 @@ import 'package:dio/dio.dart';
 class ApiService {
   final _baseUrl = "https://49dev.com/api/v1/dashboard/";
 
-
   final Dio _dio;
 
   ApiService(this._dio);
 
   Future<Response> post(
       {required body,
-        required String url,
-        required String token,
-        Map<String, String>? headers,
-        String? contentType}) async {
+      required String url,
+      required String token,
+      Map<String, String>? headers,
+      String? contentType}) async {
     var response = await _dio.post(url,
         data: body,
         options: Options(
@@ -26,14 +25,17 @@ class ApiService {
     return response;
   }
 
-  Future<Map<String, dynamic>> getData({required String endPoint, Map<String, dynamic>? headers}) async {
-
+  Future<Map<String, dynamic>> getData(
+      {required String endPoint,
+      Map<String, dynamic>? headers,
+      Map<String, dynamic>? body}) async {
     var response = await _dio.get("$_baseUrl$endPoint",
-        options: Options(headers: headers ?? {}));
+        options: Options(headers: headers ?? {}), data: body);
     return response.data;
   }
 
-  Future<Map<String, dynamic>> getDataWithoutBaseUrl({required String endPoint}) async {
+  Future<Map<String, dynamic>> getDataWithoutBaseUrl(
+      {required String endPoint}) async {
     log(endPoint.toString());
     var response = await _dio.get(endPoint);
 
@@ -67,25 +69,25 @@ class ApiService {
     log(endPoint);
     var response = await _dio.patch("$_baseUrl$endPoint",
         data: body, options: Options(headers: headers ?? {}));
-    print("Patch Data "+response.toString());
+    print("Patch Data " + response.toString());
     return response.data;
   }
 
   Future<String> patchDataString(
       {required String endPoint,
-        required Map<String, dynamic> body,
-        Map<String, dynamic>? headers}) async {
+      required Map<String, dynamic> body,
+      Map<String, dynamic>? headers}) async {
     log(endPoint);
     var response = await _dio.patch("$_baseUrl$endPoint",
         data: body, options: Options(headers: headers ?? {}));
-    print("Patch Data "+response.toString());
+    print("Patch Data " + response.toString());
     return response.toString();
   }
 
   Future<dynamic> patchDataWithReturnDynamic(
       {required String endPoint,
-        required Map<String, dynamic> body,
-        Map<String, dynamic>? headers}) async {
+      required Map<String, dynamic> body,
+      Map<String, dynamic>? headers}) async {
     log(endPoint);
     var response = await _dio.patch("$_baseUrl$endPoint",
         data: body, options: Options(headers: headers ?? {}));

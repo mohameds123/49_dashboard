@@ -19,13 +19,27 @@ class AllUsersCubit extends Cubit<UsersProfilesState> {
 
     result.fold((fail) {
       log(fail.errMessage);
-
       allUsersProfileModel = null;
       emit(GetAllUsersProfilesFailState());
     }, (data) {
       allUsersProfileModel = data;
       log(data.toString());
       emit(GetAllUsersProfilesSuccessState());
+    });
+  }
+
+  List<UserDataProfileModel> searchResult = [];
+
+  Future<void> getUsersSearchProfiles({String? key}) async {
+    emit(GetAllUsersProfilesSearchLoadingState());
+    var result = await allUsersRepos.getAllUsersSearchProfiles(key!);
+    result.fold((fail) {
+      log(fail.errMessage);
+      emit(GetAllUsersProfilesSearchFailState());
+    }, (data) {
+      searchResult = data;
+      log(data.toString());
+      emit(GetAllUsersProfilesSearchSuccessState());
     });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fourtynine_dashboard/app/modules/users_profile/data/repos/all_users_repos.dart';
@@ -29,11 +30,21 @@ class UserProfilesView extends StatelessWidget {
                   height: 20,
                 ),
                 Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(
-                        "https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg"), // Profile picture
-                    // backgroundImage: NetworkImage(user.profilePictureUrl), // Profile picture
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          "https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg" ??
+                              "",
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      // Optional: Placeholder while loading
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      // Optional: Error widget
+                      fit: BoxFit.cover,
+                      // Ensures the image fits correctly
+                      width: 100,
+                      height: 100,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -75,16 +86,19 @@ class UserProfilesView extends StatelessWidget {
                   child: Text('Block User'),
                   // child: Text(user.isBlocked ? 'Unblock User' : 'Block User'),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     // Pan user logic
                   },
                   child: Text('Pan User'),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 ElevatedButton(
-
                   onPressed: () {
                     // Delete user logic
                   },

@@ -19,15 +19,20 @@ class AllUsersItemWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleAvatar(
+          ClipOval(
             child: CachedNetworkImage(
-                imageUrl: userDataProfileModel!
-                        .userProfile!.profilePictureKey!.mediaKey ??
-                    ""),
+              imageUrl: userDataProfileModel
+                      ?.userProfile?.profilePictureKey?.mediaKey ??
+                  "",
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
+              width: 50,
+              height: 50,
+            ),
           ),
           SizedBox(
             width: 15,
-
           ),
           Text(
               "${userDataProfileModel!.firstName!} ${userDataProfileModel!.lastName}"),
