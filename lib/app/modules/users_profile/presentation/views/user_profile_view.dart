@@ -125,7 +125,9 @@ class UserProfilesView extends StatelessWidget {
                               : "No",
                       // value: user.isBlocked ? 'Yes' : 'No',
                     ),
-                    if (cubit.selectedUserDataProfileModel!.isLocked ?? false)
+                    if ((cubit.selectedUserDataProfileModel!.isLocked ??
+                            false) &&
+                        cubit.selectedUserDataProfileModel!.lockedDate != null)
                       UserInfoDisplay(
                         label: 'Banned Till:',
 
