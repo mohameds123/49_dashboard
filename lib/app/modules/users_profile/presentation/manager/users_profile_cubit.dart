@@ -42,4 +42,51 @@ class AllUsersCubit extends Cubit<UsersProfilesState> {
       emit(GetAllUsersProfilesSearchSuccessState());
     });
   }
+
+  UserDataProfileModel? selectedUserDataProfileModel;
+
+  Future<void> deleteUserProfile({String? userId}) async {
+    emit(DeleteUserProfileLoadingState());
+    var result = await allUsersRepos.deleteUser(userId!);
+    result.fold((fail) {
+      log(fail.errMessage);
+      emit(DeleteUserProfileFailState());
+    }, (data) {
+      emit(DeleteUserProfileSuccessState());
+    });
+  }
+
+  Future<void> lockUserProfile({String? userId, int? days}) async {
+    emit(LockUserProfileLoadingState());
+    var result = await allUsersRepos.lockUSer(userId!, days!);
+    result.fold((fail) {
+      log(fail.errMessage);
+      emit(LockUserProfileFailState());
+    }, (data) {
+      emit(LockUserProfileSuccessState());
+    });
+  }
+
+  Future<void> unLockUserProfile({String? userId}) async {
+    emit(UnLockUserProfileLoadingState());
+    var result = await allUsersRepos.unLockUSer(userId!);
+    result.fold((fail) {
+      log(fail.errMessage);
+      emit(UnLockUserProfileFailState());
+    }, (data) {
+      emit(UnLockUserProfileSuccessState());
+    });
+  }
+
+  Future<void> getUserProfile({String? userId}) async {
+    emit(GetUserProfileLoadingState());
+    var result = await allUsersRepos.getUser(userId!);
+    result.fold((fail) {
+      log(fail.errMessage);
+      emit(GetUserProfileFailState());
+    }, (data) {
+      selectedUserDataProfileModel = data;
+      emit(GetUserProfileSuccessState());
+    });
+  }
 }

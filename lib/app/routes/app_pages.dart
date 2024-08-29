@@ -1,4 +1,6 @@
-import 'package:fourtynine_dashboard/app/modules/admin/admin_users/views/all_users_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fourtynine_dashboard/app/core/utils/service_locator.dart';
+import 'package:fourtynine_dashboard/app/modules/users_profile/presentation/manager/users_profile_cubit.dart';
 import 'package:fourtynine_dashboard/app/modules/users_profile/presentation/views/user_profile_view.dart';
 import 'package:get/get.dart';
 
@@ -98,6 +100,7 @@ import '../modules/super_home/user_referrals/bindings/user_referrals_binding.dar
 import '../modules/super_home/user_referrals/views/user_referrals_view.dart';
 import '../modules/super_home/users/bindings/users_binding.dart';
 import '../modules/super_home/users/views/users_view.dart';
+import '../modules/users_profile/data/repos/all_users_repos.dart';
 import '../modules/users_profile/presentation/views/all_users_view.dart';
 
 part 'app_routes.dart';

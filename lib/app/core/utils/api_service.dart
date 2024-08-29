@@ -132,6 +132,10 @@ class ApiService {
       Map<String, dynamic>? headers}) async {
     var response = await _dio.delete("$_baseUrl$endPoint",
         data: body, options: Options(headers: headers ?? {}));
-    return response.data;
+    if (response.statusCode == 204) {
+      return {};
+    }
+
+    return response.data ?? {};
   }
 }
