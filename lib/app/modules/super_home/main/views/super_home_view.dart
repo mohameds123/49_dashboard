@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fourtynine_dashboard/app/modules/admin/change_user_name_password/views/change_user_name_and_pass_view.dart';
 
 import 'package:get/get.dart';
 import 'package:textless/textless.dart';
 import '../../../../routes/app_pages.dart';
+import '../../../admin/admin_user_wallet/view/screens/admin_user_wallet_screen.dart';
+import '../../../admin/user_gift/data/repo/repo.dart';
+import '../../../admin/user_gift/view/screens/user_gift_screen.dart';
+import '../../../admin/user_gift/view_model/cubit/cubit.dart';
 import '../controllers/super_home_controller.dart';
 
 class SuperHomeView extends GetView<SuperHomeController> {
@@ -30,8 +35,22 @@ class SuperHomeView extends GetView<SuperHomeController> {
               title: 'User Wallets'.text,
               onTap: () {
                 Get.back();
-                Get.toNamed(Routes.APP_MANAGER);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminUserWalletScreen()));
               },
+            ),
+            ListTile(
+              title: 'User Gift'.text,
+              onTap: () {
+                Get.back();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => GetUsersGiftsCubit(adminUserGift: AdminUserGift()),
+                      child: const UserGiftScreen(),
+                    ),
+                  ),
+                );              },
             ),
             ListTile(
               title: 'Users Profile'.text,

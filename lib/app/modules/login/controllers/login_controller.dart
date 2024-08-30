@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants.dart';
 import '../../../core/custom_dio/dio_manager.dart';
@@ -12,7 +13,6 @@ import '../../../routes/app_pages.dart';
 class LoginController extends GetxController {
   String? username;
   String? password;
-
 
   Future<void> loginUser() async {
     final dio = Dio();
@@ -27,22 +27,30 @@ class LoginController extends GetxController {
     try {
       final response = await dio.post(url, data: data);
 
-      if (response.statusCode == 200) {
-        // Handle success response
-        print('Login successful: ${response.data}');
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        // Extract tokens from response
+        final accessToken = response.data['data']['accessToken'];
+        final refreshToken = response.data['data']['refreshToken'];
+
+        // Save tokens to SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('accessToken', accessToken);
+        await prefs.setString('refreshToken', refreshToken);
+
+        // Navigate to the Super Home route
         Get.offNamed(Routes.SUPER_HOME);
+
+        print('Login successful: $accessToken');
       } else {
         // Handle non-200 status codes
-        return CustomAlert.showError('Info Not Match');
+        CustomAlert.showError('Info Not Match');
         print('Login failed: ${response.statusCode}');
       }
     } on DioException catch (e) {
       // Handle Dio errors
-
       print('Error: ${e.response?.data ?? e.message}');
     } catch (e) {
       // Handle any other errors
-
       print('Unexpected error: $e');
     }
   }
