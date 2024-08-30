@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants.dart';
 import '../../../core/custom_dio/dio_manager.dart';
 import '../../../core/custom_dio/src/custom_dio.dart';
+import '../../../core/utils/shared_pref_helper.dart';
 import '../../../core/widget/custom_alert.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   String? username;
   String? password;
+
 
   Future<void> loginUser() async {
     final dio = Dio();
@@ -38,6 +42,11 @@ class LoginController extends GetxController {
         await prefs.setString('refreshToken', refreshToken);
 
         // Navigate to the Super Home route
+      if (response.statusCode == 200) {
+        SharedPreferencesHelper.setData(
+            userKeyNameSharedPref, jsonEncode(response.data));
+        // Handle success response
+        print('Login successful: ${response.data}');
         Get.offNamed(Routes.SUPER_HOME);
 
         print('Login successful: $accessToken');
@@ -48,9 +57,11 @@ class LoginController extends GetxController {
       }
     } on DioException catch (e) {
       // Handle Dio errors
+
       print('Error: ${e.response?.data ?? e.message}');
     } catch (e) {
       // Handle any other errors
+
       print('Unexpected error: $e');
     }
   }

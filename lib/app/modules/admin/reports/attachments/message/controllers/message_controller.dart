@@ -75,7 +75,7 @@ class MessageController extends GetxController {
       key: message.recordAttachments.first,
     )
         .then((file) {
-      message.recordPlayerController!.preparePlayer(file.path, 1.0).then((_) {
+      message.recordPlayerController!.preparePlayer(path:file.path, volume: 1.0).then((_) {
         message.recordPlayerController!.getDuration().then((duration) {
           message.recordDuration = Duration(milliseconds: duration);
           messages.refresh();

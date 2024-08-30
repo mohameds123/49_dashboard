@@ -56,7 +56,7 @@ class SuperHomeView extends GetView<SuperHomeController> {
               title: 'Users Profile'.text,
               onTap: () {
                 Get.back();
-                Get.toNamed(Routes.APP_MANAGER);
+                Get.toNamed(Routes.ALLUSERSPROFILES);
               },
             ),
 

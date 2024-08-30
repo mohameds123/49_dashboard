@@ -51,6 +51,8 @@ abstract class Routes {
   static const REVIEW_PICK_ME_TRIPS = _Paths.REVIEW_PICK_ME_TRIPS;
   static const MONTHLY_CONTEST = _Paths.MONTHLY_CONTEST;
   static const COMPLAINTS = _Paths.COMPLAINTS;
+  static const ALLUSERSPROFILES = _Paths.ALLUSERSPROFILES;
+  static const USERPROFILE = _Paths.USERPROFILE;
 }
 
 abstract class _Paths {
@@ -104,4 +106,6 @@ abstract class _Paths {
   static const REVIEW_PICK_ME_TRIPS = '/review-pick-me-trips';
   static const MONTHLY_CONTEST = '/monthly-contest';
   static const COMPLAINTS = '/complaints';
+  static const ALLUSERSPROFILES = '/all-users-profiles';
+  static const USERPROFILE = '/user-profile';
 }
